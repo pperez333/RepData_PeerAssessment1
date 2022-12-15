@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Reproducible Research: Peer Assessment 1</title>
+
+<script src="PA1_template_files/header-attrs-2.18/header-attrs.js"></script>
+<script src="PA1_template_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="PA1_template_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="PA1_template_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="PA1_template_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="PA1_template_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="PA1_template_files/navigation-1.1/tabsets.js"></script>
+<link href="PA1_template_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="PA1_template_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Reproducible Research: Peer Assessment
+1</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#data" id="toc-data">Data</a></li>
+<li><a href="#loading-and-preprocessing-the-data"
+id="toc-loading-and-preprocessing-the-data">Loading and preprocessing
+the data</a></li>
+<li><a href="#mean-total-number-of-steps-taken-per-day"
+id="toc-mean-total-number-of-steps-taken-per-day">Mean total number of
+steps taken per day</a></li>
+<li><a href="#average-daily-activity-pattern"
+id="toc-average-daily-activity-pattern">Average daily activity
+pattern</a></li>
+<li><a href="#inputing-missing-values"
+id="toc-inputing-missing-values">Inputing missing values</a></li>
+<li><a
+href="#differences-in-activity-patterns-between-weekdays-and-weekends"
+id="toc-differences-in-activity-patterns-between-weekdays-and-weekends">Differences
+in activity patterns between weekdays and weekends</a></li>
+</ul>
+</div>
+
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The <a
+href="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip">data</a>
+for this assignment has been downloaded from the course web site on
+2022-15-12.</p>
+<p>The variables included in this dataset are:</p>
+<ul>
+<li>steps: Number of steps taking in a 5-minute interval (missing values
+are coded as NA)</li>
+<li>date: The date on which the measurement was taken in YYYY-MM-DD
+format</li>
+<li>interval: Identifier for the 5-minute interval in which measurement
+was taken</li>
+</ul>
+<p>There are a total of 17,568 observations.</p>
+</div>
+<div id="loading-and-preprocessing-the-data" class="section level1">
+<h1>Loading and preprocessing the data</h1>
+<p>Loading the data through a direct call to <code>read.csv</code>.
+After checking the data and the <em>type</em> of each column I
+<em>cast</em> <code>data$date</code> into <code>date</code>.</p>
+<pre class="r"><code>data &lt;- read.csv(&quot;DATA/activity.csv&quot;)
+str(data)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    17568 obs. of  3 variables:
+##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ date    : chr  &quot;2012-10-01&quot; &quot;2012-10-01&quot; &quot;2012-10-01&quot; &quot;2012-10-01&quot; ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...</code></pre>
+<pre class="r"><code>data$date &lt;- as.Date(data$date)
+summary(data)</code></pre>
+<pre><code>##      steps             date               interval     
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:2012-10-16   1st Qu.: 588.8  
+##  Median :  0.00   Median :2012-10-31   Median :1177.5  
+##  Mean   : 37.38   Mean   :2012-10-31   Mean   :1177.5  
+##  3rd Qu.: 12.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2  
+##  Max.   :806.00   Max.   :2012-11-30   Max.   :2355.0  
+##  NA&#39;s   :2304</code></pre>
+</div>
+<div id="mean-total-number-of-steps-taken-per-day"
+class="section level1">
+<h1>Mean total number of steps taken per day</h1>
+<p><em>For this part of the assignment, I will ignore the missing values
+in the dataset.</em></p>
+<p>The following is an histogram of the total number of steps taken each
+day. <em>Cleaned of NA items.</em></p>
+<pre class="r"><code>ggplot(data = subset(data, !is.na(data$steps))) + 
+  geom_col(aes(x = date, y = steps)) + 
+  labs(
+    title = &quot;Number of steps taken per day&quot;, 
+    x = &quot;Date&quot;, 
+    y = &quot;Steps&quot;)</code></pre>
+<p><img
+src="PA1_template_files/figure-html/steps%20per%20day-1.png" /><!-- --></p>
+<p>This code calculates and reports the mean and median total number of
+steps taken per day.</p>
+<pre class="r"><code>mean_steps_day &lt;- aggregate(
+  x = data$steps,
+  by = list(Date = data$date),
+  FUN = mean,
+  na.rm = TRUE)
+
+median_steps_day &lt;- aggregate(
+  x = data$steps,
+  by = list(Date = data$date),
+  FUN = median,
+  na.rm = TRUE)</code></pre>
+<p>As we have seen <a
+href="#loading-and-preprocessing-the-data">above</a>, the
+<em>median</em> for <code>data$steps</code> is 0 for the whole dataset.
+We can confirm that is the case too for all medians calculated per
+day:</p>
+<pre class="r"><code>summary(median_steps_day$x)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##       0       0       0       0       0       0       8</code></pre>
+<p>So, I will only represent the mean number of steps taken per day.</p>
+<pre class="r"><code>ggplot(data = subset(mean_steps_day, !is.na(mean_steps_day$x))) +
+  geom_col(aes(x = Date, y = x)) +
+  labs(
+    title = &quot;Mean number of steps taken per day&quot;, 
+    y = &quot;Mean of steps&quot;)</code></pre>
+<p><img
+src="PA1_template_files/figure-html/figure%20on%20mean%20steps%20per%20day-1.png" /><!-- --></p>
+</div>
+<div id="average-daily-activity-pattern" class="section level1">
+<h1>Average daily activity pattern</h1>
+<p>This time series plot shows the average number of steps taken, across
+all days (<em>y-axis</em>) per 5-minute interval (<em>x-axis</em>).</p>
+<pre class="r"><code>mean_steps_interval &lt;- aggregate(
+  x = data$steps,
+  by = list(Interval = data$interval),
+  FUN = mean,
+  na.rm = TRUE)
+
+ggplot(data = mean_steps_interval) +
+  geom_line(aes(Interval, x)) +
+  scale_x_continuous(breaks = seq(0,2400,100)) +
+  labs(
+    title = &quot;Mean number of steps taken (all days) per interval&quot;, 
+    y = &quot;Mean of steps&quot;)</code></pre>
+<p><img
+src="PA1_template_files/figure-html/average%20daily%20activity%20pattern-1.png" /><!-- --></p>
+<p>The 5-minute interval containing the maximum number of steps<a
+href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> is 835
+(<code>mean_steps_interval[which.max(mean_steps_interval$x),1]</code>).</p>
+</div>
+<div id="inputing-missing-values" class="section level1">
+<h1>Inputing missing values</h1>
+<p>As seen in the <a href="#loading-and-preprocessing-the-data">summary
+of the original data</a>, there is a considerably number of missing
+elements, <span class="math inline">\(N_{NA} = 2304\)</span>.</p>
+<p>I have created a new dataset filling the missing values with the
+average computed for that particular interval. <em>On the basis of the
+previous graphs, I consider the interval more meaningful than the daily
+average</em>.</p>
+<pre class="r"><code>filled_data &lt;- data
+
+for (each_na in which(is.na(data$steps))) {
+  filled_data[each_na,1] &lt;- mean_steps_interval[mean_steps_interval == data$interval[each_na],2][1]
+}</code></pre>
+<p>As we can see from the summary of the two datasets, there are no more
+empty numbers without changing the median, mean or max values.</p>
+<pre class="r"><code>summary(filled_data$steps)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    0.00    0.00   37.38   27.00  806.00</code></pre>
+<pre class="r"><code>summary(data$steps)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    0.00    0.00    0.00   37.38   12.00  806.00    2304</code></pre>
+<p>Repeating the previous analysis and making a couple of histograms of
+the total number of steps taken each day for the <em>filled in</em>
+dataset and the original one we can see that indeed, filling in the
+blanks does not significantly alters the graph.</p>
+<pre class="r"><code>comparison_data &lt;- rbind(
+  cbind(data,origin = &quot;Original&quot;),
+  cbind(filled_data, origin = &quot;Filled in data&quot;)
+)
+
+ggplot(data = comparison_data) + 
+  geom_col(aes(x = date, y = steps)) + 
+  facet_wrap(. ~ origin) +
+  labs(
+    title = &quot;Number of steps taken per day&quot;, 
+    x = &quot;Date&quot;, 
+    y = &quot;Steps&quot;)</code></pre>
+<p><img
+src="PA1_template_files/figure-html/second%20analysis-1.png" /><!-- --></p>
+<p>As for the mean and median number of steps taken per day, we can
+repeat the previous calculation.</p>
+<pre class="r"><code>fi_mean_steps_day &lt;- aggregate(
+  x = filled_data$steps,
+  by = list(Date = filled_data$date),
+  FUN = mean,
+  na.rm = TRUE)
+
+fi_median_steps_day &lt;- aggregate(
+  x = filled_data$steps,
+  by = list(Date = filled_data$date),
+  FUN = median,
+  na.rm = TRUE)</code></pre>
+<pre class="r"><code>summary(mean_steps_day$x)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##  0.1424 30.6979 37.3785 37.3826 46.1597 73.5903       8</code></pre>
+<pre class="r"><code>summary(fi_mean_steps_day$x)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.1424 34.0938 37.3826 37.3826 44.4826 73.5903</code></pre>
+<pre class="r"><code>summary(median_steps_day$x)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##       0       0       0       0       0       0       8</code></pre>
+<pre class="r"><code>summary(fi_median_steps_day$x)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   0.000   4.474   0.000  34.113</code></pre>
+<p>The <em>median</em> is the main value affected. So many <em>NAs</em>
+per day made it 0 for most of the days. Now it has more meaningfull
+values.</p>
+</div>
+<div id="differences-in-activity-patterns-between-weekdays-and-weekends"
+class="section level1">
+<h1>Differences in activity patterns between weekdays and weekends</h1>
+<p>The last plot contains a time series plot of the 5-minute interval
+<em>(x-axis)</em> and the average number of steps taken, averaged across
+all weekday days or weekend days <em>(y-axis)</em>.</p>
+<pre class="r"><code>week_weekend &lt;- factor(c(rep(&quot;weekday&quot;,5),rep(&quot;weekend&quot;,2)))
+
+mean_steps_interval_wwe &lt;- aggregate(
+  x = filled_data$steps,
+  by = list(Interval = filled_data$interval, 
+            week_weekend = week_weekend[wday(filled_data$date)]),
+  FUN = mean)
+
+ggplot(data = mean_steps_interval_wwe) +
+  geom_line(aes(Interval, x)) +
+  scale_x_continuous(breaks = seq(0,2400,100)) +
+  facet_wrap(. ~ week_weekend, nrow = 2) +
+  labs(
+    title = &quot;Mean number of steps taken (week vs weekend days) per interval&quot;, 
+    y = &quot;Mean of steps&quot;)</code></pre>
+<p><img
+src="PA1_template_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>On average across all the days in the dataset.<a
+href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
