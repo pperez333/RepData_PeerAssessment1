@@ -9,7 +9,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r library loading, echo = FALSE, message=FALSE}
+```{r library_loading, echo = FALSE, message=FALSE}
 library(ggplot2)
 library(lubridate)
 ```
@@ -30,7 +30,7 @@ There are a total of 17,568 observations.
 
 Loading the data through a direct call to `read.csv`. After checking the data and the *type* of each column I *cast* `data$date` into `date`.
 
-```{r loading and preproceesing, cache = TRUE}
+```{r loading_and_preproceesing, cache = TRUE}
 data <- read.csv("DATA/activity.csv")
 str(data)
 data$date <- as.Date(data$date)
@@ -43,7 +43,7 @@ summary(data)
 
 The following is an histogram of the total number of steps taken each day. *Cleaned of NA items.*
 
-```{r steps per day}
+```{r steps_per_day}
 ggplot(data = subset(data, !is.na(data$steps))) + 
   geom_col(aes(x = date, y = steps)) + 
   labs(
@@ -54,7 +54,7 @@ ggplot(data = subset(data, !is.na(data$steps))) +
 
 This code calculates and reports the mean and median total number of steps taken per day.
 
-```{r mean and media steps per day}
+```{r mean_and_media_steps_per_day}
 mean_steps_day <- aggregate(
   x = data$steps,
   by = list(Date = data$date),
@@ -76,7 +76,7 @@ summary(median_steps_day$x)
 
 So, I will only represent the mean number of steps taken per day.
 
-```{r figure on mean steps per day}
+```{r figure_on_mean_steps_per_day}
 ggplot(data = subset(mean_steps_day, !is.na(mean_steps_day$x))) +
   geom_col(aes(x = Date, y = x)) +
   labs(
@@ -88,7 +88,7 @@ ggplot(data = subset(mean_steps_day, !is.na(mean_steps_day$x))) +
 
 This time series plot shows the average number of steps taken, across all days (*y-axis*) per 5-minute interval (*x-axis*).
 
-```{r average daily activity pattern}
+```{r average_daily_activity_pattern}
 mean_steps_interval <- aggregate(
   x = data$steps,
   by = list(Interval = data$interval),
@@ -132,7 +132,7 @@ summary(data$steps)
 
 Repeating the previous analysis and making a couple of histograms of the total number of steps taken each day for the *filled in* dataset and the original one we can see that indeed, filling in the blanks does not significantly alters the graph.
 
-```{r second analysis, warning=FALSE}
+```{r second_analysis, warning=FALSE}
 
 comparison_data <- rbind(
   cbind(data,origin = "Original"),
@@ -152,7 +152,7 @@ ggplot(data = comparison_data) +
 As for the mean and median number of steps taken per day, we can repeat 
 the previous calculation.
 
-```{r second analysis 2}
+```{r second_ analysis_2}
 
 fi_mean_steps_day <- aggregate(
   x = filled_data$steps,
@@ -181,7 +181,7 @@ of the days. Now it has more meaningfull values.
 
 The last plot contains a time series plot of the 5-minute interval *(x-axis)* and the average number of steps taken, averaged across all weekday days or weekend days *(y-axis)*.
 
-```{r}
+```{r differences_week_weekend}
 week_weekend <- factor(c(rep("weekday",5),rep("weekend",2)))
 
 mean_steps_interval_wwe <- aggregate(

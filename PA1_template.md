@@ -72,7 +72,7 @@ ggplot(data = subset(data, !is.na(data$steps))) +
     y = "Steps")
 ```
 
-![](PA1_template_files/figure-html/steps per day-1.png)<!-- -->
+![](PA1_template_files/figure-html/steps_per_day-1.png)<!-- -->
 
 This code calculates and reports the mean and median total number of steps taken per day.
 
@@ -114,7 +114,7 @@ ggplot(data = subset(mean_steps_day, !is.na(mean_steps_day$x))) +
     y = "Mean of steps")
 ```
 
-![](PA1_template_files/figure-html/figure on mean steps per day-1.png)<!-- -->
+![](PA1_template_files/figure-html/figure_on_mean_steps_per_day-1.png)<!-- -->
 
 # Average daily activity pattern
 
@@ -136,7 +136,7 @@ ggplot(data = mean_steps_interval) +
     y = "Mean of steps")
 ```
 
-![](PA1_template_files/figure-html/average daily activity pattern-1.png)<!-- -->
+![](PA1_template_files/figure-html/average_daily_activity_pattern-1.png)<!-- -->
 
 The 5-minute interval containing the maximum number of steps[^1] is 835 (`mean_steps_interval[which.max(mean_steps_interval$x),1]`).
 
@@ -196,7 +196,7 @@ ggplot(data = comparison_data) +
     y = "Steps")
 ```
 
-![](PA1_template_files/figure-html/second analysis-1.png)<!-- -->
+![](PA1_template_files/figure-html/second_analysis-1.png)<!-- -->
 
 
 As for the mean and median number of steps taken per day, we can repeat 
@@ -280,4 +280,4 @@ ggplot(data = mean_steps_interval_wwe) +
     y = "Mean of steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](PA1_template_files/figure-html/differences_week_weekend-1.png)<!-- -->
